@@ -1,1 +1,22 @@
-/build
+# Gradle
+.gradle/
+gradle/
+**/build/
+build/
+
+# Local properties
+local.properties
+
+# IntelliJ / Android Studio
+.idea/
+*.iml
+
+# macOS
+.DS_Store
+
+# Kotlin/Java
+out/
+
+# Generated files
+captures/
+output.json
