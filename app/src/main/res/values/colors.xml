@@ -7,4 +7,18 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="dark_background">#0F172A</color>
+    <color name="dark_primary">#1E293B</color>
+    <color name="dark_primary_variant">#334155</color>
+    <color name="accent_blue">#3B82F6</color>
+    <color name="gray_border">#475569</color>
+    <color name="dark_card">#1E1E1E</color>
+    <color name="gray_disabled">#444444</color> <!-- dezactivat -->
+    <color name="selected_card_bg">#2929FF33</color>
+
+    <!-- Alte nuanțe utile -->
+    <color name="gray_light">#CCCCCC</color>
+    <color name="gray_medium">#888888</color>
+
 </resources>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="20dp"
+    android:background="@color/dark_background"
+    tools:context=".activities.OnboardingActivity">
+
+    <!-- Titlu -->
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Choose your wake-up objects"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:gravity="center"
+        android:layout_marginTop="40dp"
+        android:layout_marginBottom="8dp" />
+
+    <!-- Subtitlu -->
+    <TextView
+        android:id="@+id/tvSubtitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Select at least 3 objects to continue"
+        android:textSize="14sp"
+        android:textColor="@color/gray_light"
+        android:gravity="center"
+        android:layout_marginBottom="16dp" />
+
+    <!-- Lista obiectelor -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewObjects"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:clipToPadding="false"
+        android:paddingBottom="16dp"
+        tools:listitem="@layout/item_object" />
+
+    <!-- Contor selecție -->
+    <TextView
+        android:id="@+id/tvSelectedCount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="0 / 3 selected"
+        android:textSize="13sp"
+        android:textColor="@color/gray_medium"
+        android:gravity="center"
+        android:layout_marginBottom="8dp" />
+
+    <!-- Butonul Continue -->
+    <Button
+        android:id="@+id/btnContinue"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="CONTINUE"
+        android:enabled="false"
+        android:backgroundTint="@color/gray_disabled"
+        android:textColor="@color/white"
+        android:layout_marginBottom="8dp"
+        android:padding="14dp"
+        android:textAllCaps="true" />
+
+</LinearLayout>
