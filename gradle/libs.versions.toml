@@ -21,4 +21,3 @@ room-compiler = { group = "androidx.room", name = "room-compiler", version.ref =
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
-
