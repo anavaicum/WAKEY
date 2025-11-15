@@ -18,8 +18,6 @@
   <component name="ChangeListManager">
     <list default="true" id="76edb3ad-ea18-4878-a516-49357a7da59f" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/app/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/app/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gradlew" beforeDir="false" afterPath="$PROJECT_DIR$/gradlew" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gradlew.bat" beforeDir="false" afterPath="$PROJECT_DIR$/gradlew.bat" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -82,7 +80,6 @@
     "RunOnceActivity.cidr.known.project.marker": "true",
     "RunOnceActivity.git.unshallow": "true",
     "RunOnceActivity.readMode.enableVisualFormatting": "true",
-    "android.gradle.sync.needed": "true",
     "cf.first.check.clang-format": "false",
     "cidr.known.project.marker": "true",
     "git-widget-placeholder": "develop",
