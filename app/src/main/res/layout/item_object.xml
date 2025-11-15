@@ -4,41 +4,50 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
-    app:cardCornerRadius="12dp"
+    android:foreground="?android:attr/selectableItemBackground"
+    app:cardCornerRadius="16dp"
     app:cardElevation="4dp"
-    android:foreground="?attr/selectableItemBackground"
-    android:clickable="true"
-    android:focusable="true">
+    app:cardBackgroundColor="@color/dark_card">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="12dp"
-        android:gravity="center">
+        android:padding="12dp">
 
         <!-- Imaginea obiectului -->
         <ImageView
             android:id="@+id/imageObject"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_marginBottom="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:adjustViewBounds="true"
             android:scaleType="centerCrop"
-            android:contentDescription="@string/object_image"
-            android:background="@drawable/object_background_selector" />
+            android:background="@drawable/object_image_background" />
 
+        <!-- Iconița de bifă (vizibilă doar la selecție) -->
+        <ImageView
+            android:id="@+id/checkmark"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_alignParentEnd="true"
+            android:layout_margin="8dp"
+            android:background="@drawable/checkmark_circle_bg"
+            android:padding="6dp"
+            android:src="@drawable/ic_check_circle"
+            android:visibility="gone"
+            app:tint="@color/white" />
 
         <!-- Numele obiectului -->
         <TextView
             android:id="@+id/textObjectName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/object_name"
-            android:textColor="@android:color/black"
-            android:textSize="16sp"
+            android:layout_below="@id/imageObject"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="8dp"
+            android:text="Object Name"
+            android:textColor="@color/white"
             android:textStyle="bold"
+            android:textSize="16sp"
             android:gravity="center" />
-
-    </LinearLayout>
-
+    </RelativeLayout>
 </androidx.cardview.widget.CardView>

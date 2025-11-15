@@ -1,10 +1,9 @@
 package com.wakey.activities;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Button;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -12,8 +11,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.wakey.R;
 import com.wakey.adapters.ObjectAdapter;
-import com.wakey.database.SelectedObjectEntity;
-import com.wakey.database.WakeyDatabase;
 import com.wakey.models.ObjectItem;
 
 import java.util.ArrayList;
@@ -22,10 +19,10 @@ import java.util.List;
 public class OnboardingActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
-    private Button btnContinue;
     private ObjectAdapter adapter;
+    private Button btnContinue;
+    private TextView tvCounter;
     private List<ObjectItem> objectList;
-    private WakeyDatabase db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,11 +31,22 @@ public class OnboardingActivity extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.recyclerViewObjects);
         btnContinue = findViewById(R.id.btnContinue);
+        tvCounter = findViewById(R.id.tvSelectedCount);
 
-        // Inițializăm baza de date
-        db = WakeyDatabase.getInstance(this);
 
-        // Inițializare listă obiecte
+        setupObjectList();
+        setupRecyclerView();
+
+        btnContinue.setEnabled(false);
+        btnContinue.setOnClickListener(v -> {
+            // TODO: Salvăm selecțiile în DB (Room)
+            Intent intent = new Intent(OnboardingActivity.this, MainActivity.class);
+            startActivity(intent);
+            finish();
+        });
+    }
+
+    private void setupObjectList() {
         objectList = new ArrayList<>();
         objectList.add(new ObjectItem("Toothbrush", R.drawable.toothbrush));
         objectList.add(new ObjectItem("Toilet", R.drawable.toilet));
@@ -49,47 +57,23 @@ public class OnboardingActivity extends AppCompatActivity {
         objectList.add(new ObjectItem("Sneaker", R.drawable.sneaker));
         objectList.add(new ObjectItem("Chair", R.drawable.chair));
         objectList.add(new ObjectItem("Apple", R.drawable.apple));
+    }
 
+    private void setupRecyclerView() {
         adapter = new ObjectAdapter(this, objectList, selectedCount -> {
-            Button continueButton = findViewById(R.id.btnContinue);
-            continueButton.setEnabled(selectedCount >= 3);
-        });
+            // Actualizăm contorul vizual
+            tvCounter.setText(selectedCount + " / 3 selected");
 
+            // Activăm butonul doar dacă sunt 3+
+            btnContinue.setEnabled(selectedCount >= 3);
+
+            // Schimbăm culoarea butonului vizual în funcție de stare
+            int color = getColor(selectedCount >= 3 ? R.color.accent_blue : R.color.gray_disabled);
+            btnContinue.setBackgroundTintList(android.content.res.ColorStateList.valueOf(color));
+
+        });
 
         recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
         recyclerView.setAdapter(adapter);
-
-        btnContinue.setOnClickListener(v -> saveSelections());
-    }
-
-    private void saveSelections() {
-        List<ObjectItem> selected = adapter.getSelectedObjects();
-        if (selected.size() < 3) {
-            Toast.makeText(this, "Select at least 3 objects!", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        // Curățăm baza de date înainte de salvare
-        db.selectedObjectsDao().clearAll();
-
-        // Convertim obiectele selectate în entități DB
-        List<SelectedObjectEntity> entities = new ArrayList<>();
-        for (ObjectItem item : selected) {
-            entities.add(new SelectedObjectEntity(item.getName(), String.valueOf(item.getImageResId())));
-        }
-
-        db.selectedObjectsDao().insertAll(entities);
-
-        // Marcăm onboarding-ul ca terminat
-        SharedPreferences prefs = getSharedPreferences("wakey_prefs", MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putBoolean("isFirstRun", false);
-        editor.apply();
-
-        Toast.makeText(this, "Selection saved successfully!", Toast.LENGTH_SHORT).show();
-
-        // TODO: Launch MainActivity (în etapa următoare)
-        // startActivity(new Intent(this, MainActivity.class));
-        // finish();
     }
 }

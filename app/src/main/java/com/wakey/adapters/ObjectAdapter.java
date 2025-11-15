@@ -23,7 +23,7 @@ public class ObjectAdapter extends RecyclerView.Adapter<ObjectAdapter.ObjectView
     private final List<ObjectItem> objectList;
     private final OnSelectionChangedListener listener;
 
-    // 👇 Interfață pentru comunicare cu activitatea
+    // Interfață pentru a notifica activitatea despre selecții
     public interface OnSelectionChangedListener {
         void onSelectionChanged(int selectedCount);
     }
@@ -45,18 +45,17 @@ public class ObjectAdapter extends RecyclerView.Adapter<ObjectAdapter.ObjectView
     public void onBindViewHolder(@NonNull ObjectViewHolder holder, int position) {
         ObjectItem item = objectList.get(position);
 
+        // Setăm imaginea și numele
         holder.textName.setText(item.getName());
-        holder.imageView.setImageResource(item.getImageResId());
+        holder.imageObject.setImageResource(item.getImageResId());
 
-        // 🎨 Aplicăm vizual starea selectată
-        holder.itemView.setSelected(item.isSelected());
-        float elevation = item.isSelected() ? 12f : 4f;
-        holder.itemView.setElevation(elevation);
+        // Actualizăm starea vizuală (bordură, umbră, bifă)
+        updateSelectionUI(holder, item.isSelected());
 
-        // 🔄 Gestionăm click-ul și selecția
+        // Click pe card → schimbăm starea selectată
         holder.itemView.setOnClickListener(v -> {
             item.setSelected(!item.isSelected());
-            notifyItemChanged(position);
+            notifyItemChanged(position);  // actualizează doar elementul modificat
             notifySelectionChanged();
         });
     }
@@ -66,15 +65,24 @@ public class ObjectAdapter extends RecyclerView.Adapter<ObjectAdapter.ObjectView
         return objectList.size();
     }
 
-    // ✅ Metodă care anunță activitatea câte obiecte sunt selectate
-    private void notifySelectionChanged() {
-        if (listener != null) {
-            int selectedCount = getSelectedCount();
-            listener.onSelectionChanged(selectedCount);
+    // Actualizare UI în funcție de selecție
+    private void updateSelectionUI(ObjectViewHolder holder, boolean isSelected) {
+        if (isSelected) {
+            holder.checkmark.setVisibility(View.VISIBLE);
+            holder.cardView.setCardElevation(12f);
+            holder.cardView.setCardBackgroundColor(
+                    context.getResources().getColor(R.color.selected_card_bg)
+            );
+        } else {
+            holder.checkmark.setVisibility(View.GONE);
+            holder.cardView.setCardElevation(4f);
+            holder.cardView.setCardBackgroundColor(
+                    context.getResources().getColor(R.color.dark_card)
+            );
         }
     }
 
-    // ✅ Numărăm câte obiecte sunt selectate
+    // Returnează câte obiecte sunt selectate
     public int getSelectedCount() {
         int count = 0;
         for (ObjectItem item : objectList) {
@@ -83,7 +91,7 @@ public class ObjectAdapter extends RecyclerView.Adapter<ObjectAdapter.ObjectView
         return count;
     }
 
-    // ✅ Returnăm lista obiectelor selectate
+    // Returnează lista obiectelor selectate
     public List<ObjectItem> getSelectedObjects() {
         List<ObjectItem> selected = new ArrayList<>();
         for (ObjectItem item : objectList) {
@@ -92,14 +100,24 @@ public class ObjectAdapter extends RecyclerView.Adapter<ObjectAdapter.ObjectView
         return selected;
     }
 
-    // 🧱 ViewHolder
+    // Anunțăm activitatea că s-a schimbat selecția
+    private void notifySelectionChanged() {
+        if (listener != null) {
+            listener.onSelectionChanged(getSelectedCount());
+        }
+    }
+
+    // ViewHolder
     public static class ObjectViewHolder extends RecyclerView.ViewHolder {
-        ImageView imageView;
+        ImageView imageObject, checkmark;
         TextView textName;
+        CardView cardView;
 
         public ObjectViewHolder(@NonNull View itemView) {
             super(itemView);
-            imageView = itemView.findViewById(R.id.imageObject);
+            cardView = (CardView) itemView;
+            imageObject = itemView.findViewById(R.id.imageObject);
+            checkmark = itemView.findViewById(R.id.checkmark);
             textName = itemView.findViewById(R.id.textObjectName);
         }
     }

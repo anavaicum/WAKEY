@@ -11,7 +11,6 @@ public class ObjectItem {
         this.selected = false; // implicit ne-selectat
     }
 
-    // Getters
     public String getName() {
         return name;
     }
@@ -24,7 +23,6 @@ public class ObjectItem {
         return selected;
     }
 
-    // Setters
     public void setSelected(boolean selected) {
         this.selected = selected;
     }

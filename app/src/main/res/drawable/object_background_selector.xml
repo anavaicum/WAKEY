@@ -1,22 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <!-- Stare: SELECTAT -->
+    <!-- Când cardul este selectat -->
     <item android:state_selected="true">
         <shape android:shape="rectangle">
-            <solid android:color="#E3F2FD"/> <!-- albastru deschis -->
-            <stroke android:width="3dp" android:color="#2196F3"/> <!-- accent albastru -->
-            <corners android:radius="12dp" />
+            <solid android:color="@color/dark_primary_variant" />
+            <stroke
+                android:width="2dp"
+                android:color="@color/accent_blue" />
+            <corners android:radius="16dp" />
         </shape>
     </item>
 
-    <!-- Stare: NORMAL -->
+    <!-- Când cardul NU este selectat -->
     <item>
         <shape android:shape="rectangle">
-            <solid android:color="#FFFFFF"/>
-            <stroke android:width="1dp" android:color="#DDDDDD"/>
-            <corners android:radius="12dp" />
+            <solid android:color="@color/dark_primary" />
+            <corners android:radius="16dp" />
         </shape>
     </item>
-
 </selector>
