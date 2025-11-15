@@ -60,7 +60,6 @@ kotlin-js-store/
 .compose-cache/
 
 # ======================================
-# DO NOT IGNORE:
 # gradle/ (without dot)  <-- needed for libs.versions.toml
 # app/src/...            <-- your real code
 # ======================================
