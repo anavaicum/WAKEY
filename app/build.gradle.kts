@@ -38,6 +38,7 @@ dependencies {
     implementation(libs.material)
     implementation(libs.room.common.jvm)
     implementation(libs.room.runtime)
+    implementation("com.google.mlkit:image-labeling:17.0.7")
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)

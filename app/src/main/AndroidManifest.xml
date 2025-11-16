@@ -4,6 +4,8 @@
 
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+    <uses-permission android:name="android.permission.CAMERA"/>
+
 
     <application
         android:allowBackup="true"
@@ -52,6 +54,10 @@
         <activity
             android:name=".activities.AlarmListActivity"
             android:exported="false" />
+
+        <!-- ACTIVITATE DE OBJECT RECOGNITION -->
+        <activity android:name=".activities.ObjectScanActivity"/>
+
 
         <!-- RECEIVER-ul ALARMEI -->
         <receiver
