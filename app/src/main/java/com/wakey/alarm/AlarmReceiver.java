@@ -1,66 +1,63 @@
 package com.wakey.alarm;
 
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.os.Build;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
+import android.net.Uri;
+import android.os.PowerManager;
 import android.widget.Toast;
 
-import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
-
-import com.wakey.R;
+import com.wakey.activities.AlarmRingActivity;
 
 public class AlarmReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        // Preluăm obiectul random trimis de AlarmActivity
+
         String objectName = intent.getStringExtra("object");
         if (objectName == null) objectName = "Unknown object";
 
-        // Permisiune Android 13+
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            if (context.checkSelfPermission(android.Manifest.permission.POST_NOTIFICATIONS)
-                    != PackageManager.PERMISSION_GRANTED) {
 
-                Toast.makeText(context, "Notification permission needed!", Toast.LENGTH_SHORT).show();
-                return;
+       // PLAY ALARM SOUND
+        try {
+            Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
+            if (alarmSound == null) {
+                alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
             }
+
+            Ringtone ringtone = RingtoneManager.getRingtone(context, alarmSound);
+
+            if (ringtone != null) {
+                ringtone.play();
+                AlarmRingHolder.currentRingtone = ringtone;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
-        // Create notification channel (Android 8+)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel channel = new NotificationChannel(
-                    "wakey_channel",
-                    "Wakey Alarms",
-                    NotificationManager.IMPORTANCE_HIGH
-            );
-            NotificationManager manager = context.getSystemService(NotificationManager.class);
-            if (manager != null) {
-                manager.createNotificationChannel(channel);
-            }
-        }
 
-        // Build notification
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "wakey_channel")
-                .setSmallIcon(R.drawable.ic_alarm)  // asigură-te că există în drawable
-                .setContentTitle("Wakey Alarm")
-                .setContentText("Wake up! Today's object: " + objectName)
-                .setPriority(NotificationCompat.PRIORITY_HIGH)
-                .setAutoCancel(true);
+        // OPEN ALARM SCREEN
+        Intent i = new Intent(context, AlarmRingActivity.class);
+        i.putExtra("object", objectName);
 
-        // Show notification
-        NotificationManagerCompat manager = NotificationManagerCompat.from(context);
-        manager.notify(1, builder.build());
+        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
-        // Feedback vizual rapid
-        Toast.makeText(context,
-                "Alarm triggered! Object of the day: " + objectName,
-                Toast.LENGTH_LONG).show();
+        context.startActivity(i);
+
+        Toast.makeText(context, "Alarm triggered: " + objectName, Toast.LENGTH_LONG).show();
+
+        // Ne asiguram ca alarma nu este oprita automat de android dupa cateva secunde
+        PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
+        PowerManager.WakeLock wl = pm.newWakeLock(
+                PowerManager.PARTIAL_WAKE_LOCK,
+                "wakey:alarmLock"
+        );
+
+        wl.acquire(60 * 1000); // tine CPU-ul treaz 60 secunde
+
     }
-    }
-
+}

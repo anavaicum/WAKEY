@@ -5,6 +5,8 @@ import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.TextView;
@@ -61,11 +63,27 @@ public class AlarmActivity extends AppCompatActivity  {
     }
 
     private void saveAlarm() {
+
         if (selectedHour == -1 || selectedMinute == -1) {
             Toast.makeText(this, "Alege o oră!", Toast.LENGTH_SHORT).show();
             return;
         }
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            AlarmManager am = (AlarmManager) getSystemService(ALARM_SERVICE);
+
+            if (!am.canScheduleExactAlarms()) {
+
+                Intent intent = new Intent(android.provider.Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM);
+                intent.setData(Uri.parse("package:" + getPackageName()));
+                startActivity(intent);
+
+                Toast.makeText(this, "Enable exact alarms and come back.", Toast.LENGTH_LONG).show();
+                return; // STOP — NU salvăm încă
+            }
+        }
+
+        // 🔥 Acum putem salva alarma o singură dată
         String randomObject = getRandomObject();
         if (randomObject == null) {
             Toast.makeText(this, "Nu există obiecte selectate!", Toast.LENGTH_SHORT).show();
@@ -84,10 +102,10 @@ public class AlarmActivity extends AppCompatActivity  {
 
         Toast.makeText(this, "Alarmă setată!", Toast.LENGTH_SHORT).show();
 
-        Intent i = new Intent(this, AlarmListActivity.class);
-        startActivity(i);
+        startActivity(new Intent(this, AlarmListActivity.class));
         finish();
     }
+
 
     private String getRandomObject() {
         List<SelectedObjectEntity> items = WakeyDatabase
