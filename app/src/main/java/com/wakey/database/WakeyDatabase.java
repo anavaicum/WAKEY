@@ -6,12 +6,14 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
-@Database(entities = {SelectedObjectEntity.class}, version = 1)
+@Database(entities = {SelectedObjectEntity.class, AlarmEntity.class}, version = 2)
 public abstract class WakeyDatabase extends RoomDatabase {
 
     private static WakeyDatabase instance;
 
     public abstract SelectedObjectsDao selectedObjectsDao();
+
+    public abstract AlarmDao alarmDao();
 
     public static synchronized WakeyDatabase getInstance(Context context) {
         if (instance == null) {
