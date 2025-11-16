@@ -83,6 +83,9 @@ public class AlarmActivity extends AppCompatActivity  {
         scheduleAlarm(selectedHour, selectedMinute, randomObject);
 
         Toast.makeText(this, "Alarmă setată!", Toast.LENGTH_SHORT).show();
+
+        Intent i = new Intent(this, AlarmListActivity.class);
+        startActivity(i);
         finish();
     }
 
@@ -115,11 +118,17 @@ public class AlarmActivity extends AppCompatActivity  {
                 PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
         );
 
-        alarmManager.setExact(
-                AlarmManager.RTC_WAKEUP,
-                calendar.getTimeInMillis(),
-                pendingIntent
-        );
+        try {
+            alarmManager.setExactAndAllowWhileIdle(
+                    AlarmManager.RTC_WAKEUP,
+                    calendar.getTimeInMillis(),
+                    pendingIntent
+            );
+        } catch (SecurityException e) {
+            e.printStackTrace();
+            Toast.makeText(this, "Permission required to set exact alarms!", Toast.LENGTH_LONG).show();
+        }
     }
+
 
 }

@@ -3,6 +3,7 @@
     package="com.wakey">
 
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
 
     <application
         android:allowBackup="true"
@@ -42,11 +43,15 @@
             android:exported="false"
             android:theme="@style/Theme.Wakey" />
 
-        <!--  🔥 ACTIVITATEA LIPSA  -->
+        <!--  ACTIVITATEA LIPSA  -->
         <activity
             android:name=".activities.AlarmRingActivity"
             android:exported="false"
             android:theme="@style/Theme.Wakey" />
+
+        <activity
+            android:name=".activities.AlarmListActivity"
+            android:exported="false" />
 
         <!-- RECEIVER-ul ALARMEI -->
         <receiver
@@ -54,5 +59,7 @@
             android:exported="false" />
 
     </application>
+
+
 
 </manifest>

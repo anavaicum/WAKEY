@@ -3,6 +3,7 @@ package com.wakey.database;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
+import androidx.room.Delete;
 
 import java.util.List;
 
@@ -14,4 +15,9 @@ public interface AlarmDao {
 
     @Query("SELECT * FROM AlarmEntity")
     List<AlarmEntity> getAllAlarms();
+
+    @Delete
+    void deleteAlarm(AlarmEntity alarm);
+
+
 }
