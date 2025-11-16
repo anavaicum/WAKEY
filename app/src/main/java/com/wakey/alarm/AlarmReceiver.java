@@ -1,5 +1,5 @@
 package com.wakey.alarm;
-
+import com.wakey.R;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -22,10 +22,8 @@ public class AlarmReceiver extends BroadcastReceiver {
 
        // PLAY ALARM SOUND
         try {
-            Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
-            if (alarmSound == null) {
-                alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-            }
+            Uri alarmSound = Uri.parse("android.resource://"
+                    + context.getPackageName() + "/" + R.raw.wakey_alarm);
 
             Ringtone ringtone = RingtoneManager.getRingtone(context, alarmSound);
 
@@ -49,15 +47,6 @@ public class AlarmReceiver extends BroadcastReceiver {
         context.startActivity(i);
 
         Toast.makeText(context, "Alarm triggered: " + objectName, Toast.LENGTH_LONG).show();
-
-        // Ne asiguram ca alarma nu este oprita automat de android dupa cateva secunde
-        PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
-        PowerManager.WakeLock wl = pm.newWakeLock(
-                PowerManager.PARTIAL_WAKE_LOCK,
-                "wakey:alarmLock"
-        );
-
-        wl.acquire(60 * 1000); // tine CPU-ul treaz 60 secunde
 
     }
 }

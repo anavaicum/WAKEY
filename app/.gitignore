@@ -21,6 +21,12 @@ Thumbs.db
 *.iws
 *.ipr
 
+
+.gradle/
+local.properties
+build/
+app/build/
+
 # Android specific
 captures/
 output.json
