@@ -11,6 +11,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.wakey.R;
 import com.wakey.adapters.ObjectAdapter;
+import com.wakey.database.SelectedObjectEntity;
+import com.wakey.database.WakeyDatabase;
 import com.wakey.models.ObjectItem;
 
 import java.util.ArrayList;
@@ -39,7 +41,19 @@ public class OnboardingActivity extends AppCompatActivity {
 
         btnContinue.setEnabled(false);
         btnContinue.setOnClickListener(v -> {
-            // TODO: Salvăm selecțiile în DB (Room)
+            WakeyDatabase db = WakeyDatabase.getInstance(this);
+            db.selectedObjectsDao().clearAll();
+            List<SelectedObjectEntity> entities = new ArrayList<>();
+            for (ObjectItem item : adapter.getSelectedObjects()) {
+                entities.add(new SelectedObjectEntity(
+                        item.getName(),
+                        String.valueOf(item.getImageResId())   // salvăm id-ul imaginii
+                ));
+            }
+
+            // Salvăm în DB
+            db.selectedObjectsDao().insertAll(entities);
+
             Intent intent = new Intent(OnboardingActivity.this, MainActivity.class);
             startActivity(intent);
             finish();

@@ -7,35 +7,39 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
+import com.wakey.R;
+
+
 public class SplashActivity extends AppCompatActivity {
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+        @Override
+        protected void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
 
-        // Fortam tematica sa fie mereu darck
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+            // Setăm tema dark
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
 
+            // Verificăm dacă e prima rulare
+            SharedPreferences prefs = getSharedPreferences("wakey_prefs", MODE_PRIVATE);
+            boolean isFirstRun = prefs.getBoolean("isFirstRun", true);
 
-        // Citim flagul de prima rulare
-        SharedPreferences prefs = getSharedPreferences("wakey_prefs", MODE_PRIVATE);
-        boolean isFirstRun = prefs.getBoolean("isFirstRun", true);
+            Intent intent;
 
-//        Intent intent;
-//        if (isFirstRun) {
-//            // Prima deschidere → mergem în Onboarding
-//            intent = new Intent(this, OnboardingActivity.class);
-//        } else {
-//            // A doua oară → mergem direct în Main
-//            intent = new Intent(this, MainActivity.class);
-//        }
+            if (isFirstRun) {
+                // Prima deschidere → Onboarding
+                intent = new Intent(this, OnboardingActivity.class);
 
-        // Temporar: mergem mereu la Onboarding pentru testare
-        Intent intent = new Intent(this, OnboardingActivity.class);
-        startActivity(intent);
-        finish();
+                // Salvăm că onboarding a fost făcut
+                prefs.edit().putBoolean("isFirstRun", false).apply();
 
-        startActivity(intent);
-        finish();
+            } else {
+                // Nu este prima deschidere → MainActivity
+                intent = new Intent(this, MainActivity.class);
+            }
+
+            startActivity(intent);
+            finish();
+        }
     }
-}
+
+

@@ -16,4 +16,11 @@
         android:textSize="18sp"
         android:gravity="center" />
 
+
+    <Button
+        android:id="@+id/openAlarmBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Set Alarm"></Button>
+
 </LinearLayout>
