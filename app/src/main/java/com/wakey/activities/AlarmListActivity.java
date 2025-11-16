@@ -14,6 +14,8 @@ import java.util.List;
 
 public class AlarmListActivity extends AppCompatActivity {
 
+    private AlarmListAdapter adapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,7 +29,19 @@ public class AlarmListActivity extends AppCompatActivity {
                 .alarmDao()
                 .getAllAlarms();
 
-        AlarmListAdapter adapter = new AlarmListAdapter(alarms, this);
+        adapter = new AlarmListAdapter(alarms, this);
         recycler.setAdapter(adapter);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        List<AlarmEntity> refreshedList = WakeyDatabase
+                .getInstance(this)
+                .alarmDao()
+                .getAllAlarms();
+
+        adapter.updateData(refreshedList);
     }
 }

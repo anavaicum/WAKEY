@@ -59,4 +59,11 @@ public class AlarmListAdapter extends RecyclerView.Adapter<AlarmListAdapter.View
             deleteBtn = itemView.findViewById(R.id.deleteAlarmBtn);
         }
     }
+
+    public void updateData(List<AlarmEntity> newList) {
+        alarms.clear();
+        alarms.addAll(newList);
+        notifyDataSetChanged();
+    }
+
 }
