@@ -12,11 +12,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Wakey">
 
+
         <!-- Ecran principal al aplicației -->
         <activity
             android:name=".activities.SplashActivity"
             android:exported="true"
             android:theme="@style/Theme.Wakey.NoActionBar">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -37,6 +39,12 @@
 
         <activity
             android:name=".activities.AlarmActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Wakey" />
+
+        <!--  🔥 ACTIVITATEA LIPSA  -->
+        <activity
+            android:name=".activities.AlarmRingActivity"
             android:exported="false"
             android:theme="@style/Theme.Wakey" />
 

@@ -18,18 +18,21 @@ public class AlarmReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
+        // Preluăm obiectul random trimis de AlarmActivity
+        String objectName = intent.getStringExtra("object");
+        if (objectName == null) objectName = "Unknown object";
 
-        // Check permission for Android 13+
+        // Permisiune Android 13+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             if (context.checkSelfPermission(android.Manifest.permission.POST_NOTIFICATIONS)
                     != PackageManager.PERMISSION_GRANTED) {
 
-                Toast.makeText(context, "Permisiune notificări necesară!", Toast.LENGTH_SHORT).show();
-                return; // NU trimite notificarea dacă permisiunea nu e acordată
+                Toast.makeText(context, "Notification permission needed!", Toast.LENGTH_SHORT).show();
+                return;
             }
         }
 
-        // Creare canal de notificări
+        // Create notification channel (Android 8+)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel channel = new NotificationChannel(
                     "wakey_channel",
@@ -42,17 +45,22 @@ public class AlarmReceiver extends BroadcastReceiver {
             }
         }
 
-        // Notificare
+        // Build notification
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "wakey_channel")
-                .setSmallIcon(R.drawable.ic_alarm)
+                .setSmallIcon(R.drawable.ic_alarm)  // asigură-te că există în drawable
                 .setContentTitle("Wakey Alarm")
-                .setContentText("Trezirea! A sunat alarma!!!!")
-                .setPriority(NotificationCompat.PRIORITY_HIGH);
+                .setContentText("Wake up! Today's object: " + objectName)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setAutoCancel(true);
 
+        // Show notification
         NotificationManagerCompat manager = NotificationManagerCompat.from(context);
         manager.notify(1, builder.build());
 
-        Toast.makeText(context, "Alarmă declanșată!", Toast.LENGTH_SHORT).show();
+        // Feedback vizual rapid
+        Toast.makeText(context,
+                "Alarm triggered! Object of the day: " + objectName,
+                Toast.LENGTH_LONG).show();
+    }
     }
 
-}

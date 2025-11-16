@@ -16,14 +16,26 @@ public class SplashActivity extends AppCompatActivity {
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
 
+            // Setăm tema dark
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
 
-            setContentView(R.layout.activity_splash);   // <-- AI NEVOIE DE ASTA
-
+            // Verificăm dacă e prima rulare
             SharedPreferences prefs = getSharedPreferences("wakey_prefs", MODE_PRIVATE);
             boolean isFirstRun = prefs.getBoolean("isFirstRun", true);
 
-            Intent intent = new Intent(this, OnboardingActivity.class);
+            Intent intent;
+
+            if (isFirstRun) {
+                // Prima deschidere → Onboarding
+                intent = new Intent(this, OnboardingActivity.class);
+
+                // Salvăm că onboarding a fost făcut
+                prefs.edit().putBoolean("isFirstRun", false).apply();
+
+            } else {
+                // Nu este prima deschidere → MainActivity
+                intent = new Intent(this, MainActivity.class);
+            }
 
             startActivity(intent);
             finish();
