@@ -1,5 +1,6 @@
 package com.wakey.activities;
 
+import android.content.Intent;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -34,15 +35,14 @@ public class AlarmRingActivity extends AppCompatActivity {
             img.setImageResource(imageRes);
         }
 
-        // === PORNEȘTE SUNETUL ALARMEI ===
+        /** PORNEȘTE SUNETUL ALARMEI */
         if (AlarmRingHolder.currentRingtone == null) {
-            Uri uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
 
-            if (uri == null) {
-                uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-            }
+            Uri alarmSound = Uri.parse(
+                    "android.resource://" + getPackageName() + "/" + R.raw.wakey_alarm
+            );
 
-            Ringtone ringtone = RingtoneManager.getRingtone(this, uri);
+            Ringtone ringtone = RingtoneManager.getRingtone(this, alarmSound);
             AlarmRingHolder.currentRingtone = ringtone;
 
             if (ringtone != null) {
@@ -50,31 +50,35 @@ public class AlarmRingActivity extends AppCompatActivity {
             }
         }
 
-        //  BUTON PENTRU OPRIREA ALARMEI
+        /** BUTON STOP → oprește alarma și pornește ObjectScanActivity */
         btnStop.setOnClickListener(v -> {
-            if (AlarmRingHolder.currentRingtone != null) {
-                AlarmRingHolder.currentRingtone.stop();
-                AlarmRingHolder.currentRingtone = null;
+            if (AlarmRingHolder.mediaPlayer != null) {
+                AlarmRingHolder.mediaPlayer.stop();
+                AlarmRingHolder.mediaPlayer = null;
             }
+
+            Intent i = new Intent(AlarmRingActivity.this, ObjectScanActivity.class);
+            i.putExtra("target_object", objectName);
+            startActivity(i);
+
             finish();
         });
 
-        // Ne asiguram ca alarma apare si pe lock screen
+        /** Asigurăm afișarea pe lockscreen */
         getWindow().addFlags(
                 WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
                         WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON |
                         WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
         );
-
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        // Siguranță suplimentară
-        if (isFinishing() && AlarmRingHolder.currentRingtone != null) {
-            AlarmRingHolder.currentRingtone.stop();
-            AlarmRingHolder.currentRingtone = null;
+
+        if (isFinishing() && AlarmRingHolder.mediaPlayer != null) {
+            AlarmRingHolder.mediaPlayer.stop();
+            AlarmRingHolder.mediaPlayer = null;
         }
     }
 }

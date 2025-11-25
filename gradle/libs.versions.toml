@@ -8,6 +8,11 @@ material = "1.10.0"
 roomCommonJvm = "2.8.3"
 roomRuntime = "2.8.3"
 roomCompiler = "2.8.3"
+cameraCore = "1.5.1"
+cameraLifecycle = "1.5.1"
+cameraView = "1.5.1"
+objectDetectionCommon = "18.0.0"
+objectDetection = "17.0.2"
 
 [libraries]
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -18,6 +23,11 @@ material = { group = "com.google.android.material", name = "material", version.r
 room-common-jvm = { group = "androidx.room", name = "room-common-jvm", version.ref = "roomCommonJvm" }
 room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "roomRuntime" }
 room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "roomCompiler" }
+camera-core = { group = "androidx.camera", name = "camera-core", version.ref = "cameraCore" }
+camera-lifecycle = { group = "androidx.camera", name = "camera-lifecycle", version.ref = "cameraLifecycle" }
+camera-view = { group = "androidx.camera", name = "camera-view", version.ref = "cameraView" }
+object1-detection-common = { group = "com.google.mlkit", name = "object-detection-common", version.ref = "objectDetectionCommon" }
+object1-detection = { group = "com.google.mlkit", name = "object-detection", version.ref = "objectDetection" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

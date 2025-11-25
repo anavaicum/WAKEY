@@ -1,0 +1,10 @@
+apple
+book
+chair
+cup
+fork
+sneaker
+toilet
+toothbrush
+washing_machine
+
