@@ -65,6 +65,37 @@ kotlin-js-store/
 # Jetpack Compose preview caches
 .compose-cache/
 
+# Android Studio build reports
+**/build/reports/
+**/build/intermediates/
+**/reports/
+**/outputs/
+
+# Android lint & diagnostics
+**/lint-results.html
+**/lint-results.xml
+**/lint-report.*
+**/problems/report.json
+**/problems/report.html
+**/problems/**
+
+# Room schema outputs (generated locally)
+schemas/
+
+# Kotlin compilation caches
+**/kotlin/compile/
+**/kotlin/daemon/
+
+# IDE caches
+.idea/caches/
+.idea/libraries/
+.idea/workspace.xml
+.idea/tasks.xml
+.idea/modules.xml
+.idea/navEditor.xml
+.idea/assetWizardSettings.xml
+
+
 # ======================================
 # gradle/ (without dot)  <-- needed for libs.versions.toml
 # app/src/...            <-- your real code
