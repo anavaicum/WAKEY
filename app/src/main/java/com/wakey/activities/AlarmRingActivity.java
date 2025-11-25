@@ -58,6 +58,7 @@ public class AlarmRingActivity extends AppCompatActivity {
             }
 
             Intent i = new Intent(AlarmRingActivity.this, ObjectScanActivity.class);
+            i.putExtra("target_object", objectName);
             startActivity(i);
 
             finish();
