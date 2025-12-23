@@ -13,4 +13,10 @@ public class AlarmEntity {
     public int minute;
     public String selectedObjectName;
     public boolean isActive;
+
+    // Bitmask pentru zile: bit0=Mon ... bit6=Sun. 0 = one-shot
+    public int repeatDaysMask;
+
+    // opțional, util pentru debug/UI
+    public long nextTriggerAt;
 }

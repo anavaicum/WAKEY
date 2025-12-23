@@ -1,26 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:background="#0A1324"
-    android:padding="20dp">
+    android:layout_marginTop="10dp"
+    android:layout_marginBottom="10dp"
+    app:cardCornerRadius="18dp"
+    app:cardElevation="0dp"
+    app:cardUseCompatPadding="true"
+    app:cardBackgroundColor="@color/dark_primary">
 
-    <TextView
-        android:id="@+id/alarmTime"
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Time: 18:00"
-        android:textSize="22sp"
-        android:textColor="#FFFFFF"
-        android:layout_marginBottom="8dp"/>
+        android:padding="18dp">
 
-    <Button
-        android:id="@+id/deleteAlarmBtn"
-        android:layout_width="120dp"
-        android:layout_height="40dp"
-        android:text="DELETE"
-        android:textSize="16sp"
-        android:textColor="#FFFFFF"
-        android:background="@drawable/button_bg"/>
-</LinearLayout>
+        <!-- LEFT: content -->
+        <LinearLayout
+            android:id="@+id/leftContent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:orientation="vertical">
+
+            <!-- BIG TIME -->
+            <TextView
+                android:id="@+id/alarmTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="06:30"
+                android:textSize="38sp"
+                android:textStyle="bold"
+                android:textColor="@color/white" />
+
+            <!-- days -->
+            <TextView
+                android:id="@+id/daysText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="Mon, Tue, Wed"
+                android:textSize="13sp"
+                android:textColor="@color/white"
+                android:alpha="0.75" />
+
+        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/btnEditAlarm"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_centerVertical="true"
+            android:layout_toStartOf="@id/switchActive"
+            android:layout_marginEnd="10dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_edit"
+            android:contentDescription="Edit alarm"
+            app:tint="@color/white" />
+
+
+        <!-- RIGHT: switch -->
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/switchActive"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:checked="true" />
+
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>
