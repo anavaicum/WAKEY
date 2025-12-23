@@ -8,38 +8,31 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
 import com.wakey.R;
+import com.wakey.database.WakeyDatabase;
 
 
 public class SplashActivity extends AppCompatActivity {
 
-        @Override
-        protected void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-            // Setăm tema dark
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
 
-            // Verificăm dacă e prima rulare
-            SharedPreferences prefs = getSharedPreferences("wakey_prefs", MODE_PRIVATE);
-            boolean isFirstRun = prefs.getBoolean("isFirstRun", true);
+        new Thread(() -> {
+            WakeyDatabase db = WakeyDatabase.getInstance(this);
+            int selectedCount = db.selectedObjectsDao().getAllSelected().size();
 
-            Intent intent;
+            Intent intent = (selectedCount >= 3)
+                    ? new Intent(this, AlarmListActivity.class)
+                    : new Intent(this, OnboardingActivity.class);
 
-            if (isFirstRun) {
-                // Prima deschidere → Onboarding
-                intent = new Intent(this, OnboardingActivity.class);
+            runOnUiThread(() -> {
+                startActivity(intent);
+                finish();
+            });
+        }).start();
 
-                // Salvăm că onboarding a fost făcut
-                prefs.edit().putBoolean("isFirstRun", false).apply();
-
-            } else {
-                // Nu este prima deschidere → MainActivity
-                intent = new Intent(this, MainActivity.class);
-            }
-
-            startActivity(intent);
-            finish();
-        }
     }
-
+}
 

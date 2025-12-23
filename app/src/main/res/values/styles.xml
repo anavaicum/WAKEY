@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="DayChip" parent="Widget.MaterialComponents.Chip.Filter">
+        <item name="android:checkable">true</item>
+
+        <!-- NU schimbăm layout-ul -->
+        <item name="checkedIconVisible">false</item>
+        <item name="chipIconVisible">false</item>
+
+        <!-- contrast -->
+        <item name="chipBackgroundColor">@color/chip_bg_selector</item>
+        <item name="android:textColor">@color/chip_text_selector</item>
+
+        <!-- formă & dimensiuni -->
+        <item name="chipMinHeight">36dp</item>
+        <item name="chipCornerRadius">18dp</item>
+
+        <!-- padding stabil -->
+        <item name="chipStartPadding">12dp</item>
+        <item name="chipEndPadding">12dp</item>
+        <item name="textStartPadding">0dp</item>
+        <item name="textEndPadding">0dp</item>
+    </style>
+
+
+</resources>
