@@ -29,6 +29,7 @@ public class AlarmActivity extends AppCompatActivity  {
     private TextView selectedTimeText;
     private int selectedHour = -1;
     private int selectedMinute = -1;
+    private com.google.android.material.chip.Chip chipMon, chipTue, chipWed, chipThu, chipFri, chipSat, chipSun;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,10 +40,29 @@ public class AlarmActivity extends AppCompatActivity  {
         Button saveAlarmBtn = findViewById(R.id.saveAlarmBtn);
         selectedTimeText = findViewById(R.id.selectedTimeText);
 
+        chipMon = findViewById(R.id.chipMon);
+        chipTue = findViewById(R.id.chipTue);
+        chipWed = findViewById(R.id.chipWed);
+        chipThu = findViewById(R.id.chipThu);
+        chipFri = findViewById(R.id.chipFri);
+        chipSat = findViewById(R.id.chipSat);
+        chipSun = findViewById(R.id.chipSun);
+
         pickTimeBtn.setOnClickListener(v -> openTimePicker());
         saveAlarmBtn.setOnClickListener(v -> saveAlarm());
     }
 
+    private int buildRepeatMask() {
+        int mask = 0;
+        if (chipMon.isChecked()) mask |= (1 << 0);
+        if (chipTue.isChecked()) mask |= (1 << 1);
+        if (chipWed.isChecked()) mask |= (1 << 2);
+        if (chipThu.isChecked()) mask |= (1 << 3);
+        if (chipFri.isChecked()) mask |= (1 << 4);
+        if (chipSat.isChecked()) mask |= (1 << 5);
+        if (chipSun.isChecked()) mask |= (1 << 6);
+        return mask;
+    }
     private void openTimePicker() {
         Calendar now = Calendar.getInstance();
 
@@ -90,18 +110,25 @@ public class AlarmActivity extends AppCompatActivity  {
             return;
         }
 
+        int repeatMask = buildRepeatMask();
+
         AlarmEntity alarm = new AlarmEntity();
         alarm.hour = selectedHour;
         alarm.minute = selectedMinute;
         alarm.selectedObjectName = randomObject;
         alarm.isActive = true;
+        alarm.repeatDaysMask = repeatMask;
 
-        WakeyDatabase.getInstance(this).alarmDao().insertAlarm(alarm);
+        long newId = WakeyDatabase.getInstance(this).alarmDao().insertAlarm(alarm);
+        alarm.id = (int) newId;
 
-        scheduleAlarm(selectedHour, selectedMinute, randomObject);
+        long next = com.wakey.alarm.AlarmScheduler.computeNextTriggerTimeMillis(alarm);
+        alarm.nextTriggerAt = next;
+        WakeyDatabase.getInstance(this).alarmDao().setNextTriggerAt(alarm.id, next);
+
+        com.wakey.alarm.AlarmScheduler.schedule(this, alarm);
 
         Toast.makeText(this, "Alarmă setată!", Toast.LENGTH_SHORT).show();
-
         startActivity(new Intent(this, AlarmListActivity.class));
         finish();
     }

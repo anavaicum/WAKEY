@@ -16,8 +16,30 @@ public class AlarmReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
 
+        int alarmId = intent.getIntExtra("alarm_id", -1);
+
+        // ia alarma din DB (dacă lipsește id, fallback pe ce exista)
         String objectName = intent.getStringExtra("object");
         if (objectName == null) objectName = "Unknown object";
+
+        if (alarmId != -1) {
+            try {
+                var db = com.wakey.database.WakeyDatabase.getInstance(context);
+                var alarm = db.alarmDao().getById(alarmId);
+                if (alarm == null || !alarm.isActive) return;
+
+                // reschedule / deactivate
+                if (alarm.repeatDaysMask != 0) {
+                    AlarmScheduler.schedule(context, alarm);
+                    long next = AlarmScheduler.computeNextTriggerTimeMillis(alarm);
+                    db.alarmDao().setNextTriggerAt(alarm.id, next);
+                } else {
+                    db.alarmDao().setActive(alarm.id, false);
+                }
+
+                objectName = alarm.selectedObjectName; // prefer DB value
+            } catch (Exception ignored) {}
+        }
 
 
        // PLAY ALARM SOUND

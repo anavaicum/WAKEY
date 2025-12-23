@@ -38,6 +38,7 @@ public class AlarmListAdapter extends RecyclerView.Adapter<AlarmListAdapter.View
         holder.time.setText(String.format("Time: %02d:%02d", alarm.hour, alarm.minute));
 
         holder.deleteBtn.setOnClickListener(v -> {
+            com.wakey.alarm.AlarmScheduler.cancel(context, alarm.id);
             WakeyDatabase.getInstance(context).alarmDao().deleteAlarm(alarm);
             alarms.remove(position);
             notifyItemRemoved(position);
