@@ -33,15 +33,19 @@
                 android:textSize="28sp"
                 android:textStyle="bold"/>
 
-            <ImageButton
+            <androidx.appcompat.widget.AppCompatImageButton
                 android:id="@+id/btnSettings"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
                 android:layout_gravity="end"
                 android:background="?attr/selectableItemBackgroundBorderless"
-                android:src="@drawable/ic_settings"
                 android:contentDescription="Settings"
-                app:tint="@color/white" />
+                android:padding="8dp"
+                android:paddingTop="10dp"
+                android:scaleType="centerInside"
+                app:srcCompat="@drawable/objects2"
+                app:tint="@android:color/white" />
+
 
         </com.google.android.material.appbar.MaterialToolbar>
     </com.google.android.material.appbar.AppBarLayout>
