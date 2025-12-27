@@ -16,7 +16,7 @@
         android:id="@+id/detectedObjectText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Waiting for object..."
+        android:text="Looking for object"
         android:textSize="20sp"
         android:padding="16dp"
         android:background="#88000000"

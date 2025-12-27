@@ -66,6 +66,16 @@ public class AlarmReceiver extends BroadcastReceiver {
         i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
+        int imageRes = context.getResources().getIdentifier(
+                objectName.trim().toLowerCase(java.util.Locale.ROOT).replace(" ", "_"),
+                "drawable",
+                context.getPackageName()
+        );
+        if (imageRes == 0) imageRes = R.drawable.ic_alarm;
+
+        i.putExtra("image", imageRes);
+
+
         context.startActivity(i);
 
         Toast.makeText(context, "Alarm triggered: " + objectName, Toast.LENGTH_LONG).show();

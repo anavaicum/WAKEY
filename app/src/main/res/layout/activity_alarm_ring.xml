@@ -1,50 +1,140 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/rootRing"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="center"
-    android:padding="32dp"
-    android:background="@color/black">
+    android:background="#0A1324"
+    android:paddingStart="24dp"
+    android:paddingEnd="24dp"
+    android:paddingBottom="24dp">
 
-    <TextView
-        android:id="@+id/textWakeUp"
-        android:layout_width="wrap_content"
+    <!-- HEADER (ora + subtitle) -->
+    <LinearLayout
+        android:id="@+id/headerBlock"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="WAKE UP!"
-        android:textSize="32sp"
-        android:textStyle="bold"
-        android:textColor="@color/white"
-        android:layout_marginBottom="24dp" />
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:paddingTop="18dp"
+        android:paddingBottom="10dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
-    <ImageView
-        android:id="@+id/imageObject"
-        android:layout_width="140dp"
-        android:layout_height="140dp"
-        android:layout_marginBottom="16dp"
-        android:src="@drawable/ic_alarm" />
+        <TextView
+            android:id="@+id/textAlarmTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="07:10 PM"
+            android:textColor="@android:color/white"
+            android:textSize="34sp"
+            android:textStyle="bold" />
 
+        <TextView
+            android:id="@+id/textSubtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:text="Time to wake up"
+            android:textColor="@android:color/white"
+            android:alpha="0.70"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <!-- IMAGE (flex) -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardObject"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="12dp"
+        app:cardCornerRadius="22dp"
+        app:cardElevation="0dp"
+        app:cardBackgroundColor="#EDEDED"
+        app:layout_constraintTop_toBottomOf="@id/headerBlock"
+        app:layout_constraintBottom_toTopOf="@id/textObjectName"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintDimensionRatio="4:5"
+        app:layout_constraintHeight_default="spread"
+        app:layout_constraintHeight_min="220dp"
+        app:layout_constraintHeight_max="520dp">
+
+        <ImageView
+            android:id="@+id/imageObject"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_alarm" />
+    </androidx.cardview.widget.CardView>
+
+    <!-- NAME -->
     <TextView
         android:id="@+id/textObjectName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Object of the day"
-        android:textColor="@color/white"
-        android:textSize="20sp"
-        android:layout_marginBottom="40dp" />
+        android:layout_marginTop="12dp"
+        android:text="Sneaker"
+        android:textColor="@android:color/white"
+        android:textStyle="bold"
+        android:textSize="26sp"
+        app:layout_constraintTop_toBottomOf="@id/cardObject"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
-    <Button
-        android:id="@+id/btnStopAlarm"
+    <!-- HINT -->
+    <TextView
+        android:id="@+id/textHint"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingLeft="32dp"
-        android:paddingRight="32dp"
-        android:paddingTop="12dp"
-        android:paddingBottom="12dp"
-        android:text="I'M AWAKE"
-        android:textAllCaps="false"
-        android:textSize="18sp"
-        android:backgroundTint="@color/purple_500"
-        android:textColor="@color/white" />
+        android:layout_marginTop="6dp"
+        android:text="Scan the object to turn off the alarm"
+        android:textColor="@android:color/white"
+        android:alpha="0.60"
+        android:textSize="14sp"
+        app:layout_constraintTop_toBottomOf="@id/textObjectName"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
-</LinearLayout>
+    <!-- BUTTONS BLOCK (anchored bottom) -->
+    <LinearLayout
+        android:id="@+id/buttonsBlock"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@id/textHint"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnScanObject"
+            android:layout_width="match_parent"
+            android:layout_height="84dp"
+            android:text="Scan Object"
+            android:textAllCaps="false"
+            android:textSize="18sp"
+            android:textColor="@android:color/white"
+            app:cornerRadius="18dp"
+            app:backgroundTint="@color/accent_blue"
+            app:icon="@drawable/ic_scan"
+            app:iconTint="@android:color/white"
+            app:iconPadding="12dp"
+            app:iconGravity="textStart" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnEmergencyStop"
+            android:layout_width="match_parent"
+            android:layout_height="62dp"
+            android:layout_marginTop="14dp"
+            android:text="Emergency Stop"
+            android:textAllCaps="false"
+            android:textSize="15sp"
+            android:textColor="@android:color/white"
+            app:cornerRadius="18dp"
+            app:backgroundTint="#D84B3E" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
