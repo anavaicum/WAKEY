@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- DASHBOARD -->
+    <item
+        android:id="@+id/nav_dashboard"
+        android:icon="@drawable/ic_dashboard"
+        android:title="Dashboard" />
+
+    <!-- ALARMS -->
+    <item
+        android:id="@+id/nav_alarms"
+        android:icon="@drawable/ic_alarm1"
+        android:title="Alarms" />
+
+    <!-- PROFILE -->
+    <item
+        android:id="@+id/nav_profile"
+        android:icon="@drawable/ic_profile"
+        android:title="Profile" />
+
+</menu>

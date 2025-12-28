@@ -9,7 +9,17 @@ import androidx.room.RoomDatabase;
 import androidx.room.migration.Migration;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
-@Database(entities = {SelectedObjectEntity.class, AlarmEntity.class}, version = 3)
+@Database(
+        entities = {
+                SelectedObjectEntity.class,
+                AlarmEntity.class,
+                LifeEntity.class,
+                WakeHistoryEntity.class
+        },
+        version = 5,
+        exportSchema = false
+)
+
 public abstract class WakeyDatabase extends RoomDatabase {
 
     private static WakeyDatabase instance;
@@ -25,6 +35,9 @@ public abstract class WakeyDatabase extends RoomDatabase {
 
     public abstract SelectedObjectsDao selectedObjectsDao();
     public abstract AlarmDao alarmDao();
+
+    public abstract LifeDao lifeDao();
+    public abstract WakeHistoryDao wakeHistoryDao();
 
     public static synchronized WakeyDatabase getInstance(Context context) {
         if (instance == null) {

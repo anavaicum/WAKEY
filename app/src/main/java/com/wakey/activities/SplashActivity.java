@@ -1,15 +1,12 @@
 package com.wakey.activities;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
-import com.wakey.R;
 import com.wakey.database.WakeyDatabase;
-
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -24,7 +21,7 @@ public class SplashActivity extends AppCompatActivity {
             int selectedCount = db.selectedObjectsDao().getAllSelected().size();
 
             Intent intent = (selectedCount >= 3)
-                    ? new Intent(this, AlarmListActivity.class)
+                    ? new Intent(this, MainActivity.class)      // 🔥 DASHBOARD
                     : new Intent(this, OnboardingActivity.class);
 
             runOnUiThread(() -> {
@@ -32,7 +29,5 @@ public class SplashActivity extends AppCompatActivity {
                 finish();
             });
         }).start();
-
     }
 }
-
