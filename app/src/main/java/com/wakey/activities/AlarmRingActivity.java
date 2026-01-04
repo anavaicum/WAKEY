@@ -17,6 +17,8 @@ import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
 import com.wakey.R;
 import com.wakey.alarm.AlarmRingHolder;
+import com.wakey.database.WakeHistoryEntity;
+import com.wakey.database.WakeyDatabase;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -96,9 +98,47 @@ public class AlarmRingActivity extends AppCompatActivity {
 
         // Emergency Stop -> deocamdată doar există
         btnEmergency.setOnClickListener(v -> {
-            // TODO implement later
-            android.widget.Toast.makeText(this, "Emergency Stop (TODO)", android.widget.Toast.LENGTH_SHORT).show();
+
+            // 1️⃣ Oprește alarma
+            if (AlarmRingHolder.currentRingtone != null) {
+                AlarmRingHolder.currentRingtone.stop();
+                AlarmRingHolder.currentRingtone = null;
+            }
+
+            // 2️⃣ Logică DB pe thread separat
+            new Thread(() -> {
+                WakeyDatabase db = WakeyDatabase.getInstance(this);
+
+                // 🔻 pierde o viață + reset streak
+                db.lifeDao().loseLife();
+                db.lifeDao().resetStreak();
+
+                // 3️⃣ Salvează wake history (FAIL + emergency)
+                WakeHistoryEntity entry = new WakeHistoryEntity();
+                entry.date = System.currentTimeMillis();
+                entry.wakeTime = System.currentTimeMillis();
+                entry.success = false;
+                entry.emergencyUsed = true;
+
+                db.wakeHistoryDao().insert(entry);
+
+                runOnUiThread(() -> {
+                    Toast.makeText(
+                            this,
+                            "Emergency used! You lost 1 life.",
+                            Toast.LENGTH_SHORT
+                    ).show();
+
+                    // 4️⃣ Înapoi la dashboard
+                    Intent i = new Intent(this, MainActivity.class);
+                    i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(i);
+                    finish();
+                });
+
+            }).start();
         });
+
 
         // lockscreen flags
         getWindow().addFlags(
