@@ -12,12 +12,31 @@ public interface WakeHistoryDao {
     @Insert
     void insert(WakeHistoryEntity entry);
 
+    // 🔹 Toate intrările (debug / istoric)
     @Query("SELECT * FROM wake_history ORDER BY date DESC")
     List<WakeHistoryEntity> getAll();
 
-    @Query("SELECT * FROM wake_history ORDER BY date DESC LIMIT 7")
-    List<WakeHistoryEntity> getLast7Days();
+    // 🔹 Ultimele 7 ZILE CORECTE (pt chart & avg)
+    @Query(
+            "SELECT * FROM wake_history " +
+                    "WHERE success = 1 AND emergencyUsed = 0 " +
+                    "ORDER BY date DESC " +
+                    "LIMIT 7"
+    )
+    List<WakeHistoryEntity> getLast7SuccessfulDays();
 
-    @Query("SELECT COUNT(*) FROM wake_history WHERE success = 1")
+    // 🔹 Streak real (zile corecte)
+    @Query(
+            "SELECT COUNT(*) FROM wake_history " +
+                    "WHERE success = 1 AND emergencyUsed = 0"
+    )
     int getSuccessfulDaysCount();
+
+    // 🔹 Ultima zi (pt logică lives)
+    @Query(
+            "SELECT * FROM wake_history " +
+                    "ORDER BY date DESC " +
+                    "LIMIT 1"
+    )
+    WakeHistoryEntity getLastEntry();
 }

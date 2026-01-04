@@ -127,6 +127,11 @@
                 </com.google.android.material.card.MaterialCardView>
             </LinearLayout>
 
+
+
+
+
+
             <!-- LIVES -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
@@ -178,6 +183,8 @@
                         android:text="Progress to next life"
                         android:textColor="@android:color/white"/>
 
+
+
                     <ProgressBar
                         android:id="@+id/progressToNextLife"
                         android:layout_width="match_parent"
@@ -196,6 +203,47 @@
                         android:layout_marginTop="6dp"/>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
+
+            <!-- WEEKLY OVERVIEW -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:cardBackgroundColor="#141C2F"
+                app:cardCornerRadius="20dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Weekly overview"
+                        android:textColor="@android:color/white"
+                        android:textSize="16sp"
+                        android:textStyle="bold"/>
+
+                    <TextView
+                        android:id="@+id/textWakeTarget"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Set target time"
+                        android:textColor="#B0B6C3"
+                        android:layout_marginTop="4dp"/>
+
+                    <com.wakey.views.WeeklyWakeChartView
+                        android:id="@+id/weeklyChart"
+                        android:layout_width="match_parent"
+                        android:layout_height="160dp"
+                        android:layout_marginTop="12dp"/>
+
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+
 
         </LinearLayout>
     </ScrollView>

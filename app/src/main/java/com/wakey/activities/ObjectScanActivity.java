@@ -22,6 +22,8 @@ import android.widget.Toast;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.wakey.R;
 import com.wakey.alarm.AlarmRingHolder;
+import com.wakey.database.WakeHistoryEntity;
+import com.wakey.database.WakeyDatabase;
 import com.wakey.utils.YuvToRgbConverter;
 import com.wakey.utils.YoloV8Detector;
 
@@ -220,6 +222,8 @@ public class ObjectScanActivity extends AppCompatActivity {
                         Log.d("YOLO_ALARM", "Alarma oprită cu succes.");
                     }
 
+                    saveSuccessfulWake();
+
                     runOnUiThread(() -> showDetectionDialog());
                 }
             }
@@ -263,4 +267,23 @@ public class ObjectScanActivity extends AppCompatActivity {
             finish();
         }
     }
+
+    private void saveSuccessfulWake() {
+        new Thread(() -> {
+            WakeyDatabase db = WakeyDatabase.getInstance(this);
+
+            WakeHistoryEntity e = new WakeHistoryEntity();
+            e.date = System.currentTimeMillis();
+            e.wakeTime = System.currentTimeMillis();
+            e.success = true;
+            e.emergencyUsed = false;
+
+            db.wakeHistoryDao().insert(e);
+
+            db.lifeDao().incrementStreak();
+
+            Log.d("WAKE_HISTORY", "Wake saved successfully");
+        }).start();
+    }
+
 }

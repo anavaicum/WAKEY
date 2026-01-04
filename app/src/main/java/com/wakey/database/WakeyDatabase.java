@@ -14,9 +14,10 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
                 SelectedObjectEntity.class,
                 AlarmEntity.class,
                 LifeEntity.class,
-                WakeHistoryEntity.class
+                WakeHistoryEntity.class,
+                WakeTargetEntity.class
         },
-        version = 5,
+        version = 6,
         exportSchema = false
 )
 
@@ -38,6 +39,9 @@ public abstract class WakeyDatabase extends RoomDatabase {
 
     public abstract LifeDao lifeDao();
     public abstract WakeHistoryDao wakeHistoryDao();
+
+    public abstract WakeTargetDao wakeTargetDao();
+
 
     public static synchronized WakeyDatabase getInstance(Context context) {
         if (instance == null) {
