@@ -15,11 +15,13 @@
         android:alpha="1"/>
 
     <TextView
+        android:id="@+id/tvBadge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/badge_placeholder"
         android:textColor="@android:color/white"
         android:textSize="12sp"
-        android:layout_marginTop="4dp"/>
+        android:layout_marginTop="4dp" />
+
 
 </LinearLayout>

@@ -23,7 +23,7 @@
             android:textSize="22sp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            />
 
         <!-- Name input -->
         <EditText
@@ -119,10 +119,14 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <include layout="@layout/item_badge" />
-                <include layout="@layout/item_badge" />
-                <include layout="@layout/item_badge" />
-                <include layout="@layout/item_badge" />
+                <include
+                    android:id="@+id/badgeNoSnooze"
+                    layout="@layout/item_badge" />
+
+                <include
+                    android:id="@+id/badgeEarlyRiser"
+                    layout="@layout/item_badge" />
+
 
             </LinearLayout>
         </HorizontalScrollView>

@@ -9,6 +9,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.button.MaterialButton;
@@ -83,6 +84,8 @@ public class MainActivity extends AppCompatActivity {
             int id = item.getItemId();
 
             if (id == R.id.nav_dashboard) {
+                // Suntem DEJA în MainActivity (Dashboard)
+                // NU facem nimic
                 return true;
             }
 
@@ -98,9 +101,19 @@ public class MainActivity extends AppCompatActivity {
                         .commit();
                 return true;
             }
+            if (id == R.id.nav_dashboard) {
+                // Eliminăm orice fragment (ex: ProfileFragment)
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragmentContainer, new Fragment())
+                        .commit();
+
+                return true;
+            }
 
             return false;
         });
+
 
 
         // ===== DATA =====

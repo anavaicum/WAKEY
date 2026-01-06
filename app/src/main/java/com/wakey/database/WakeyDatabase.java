@@ -16,9 +16,10 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
                 LifeEntity.class,
                 WakeHistoryEntity.class,
                 WakeTargetEntity.class,
-                UserProfileEntity.class
+                UserProfileEntity.class,
+                AlarmEventEntity.class
         },
-        version = 7,
+        version = 8,
         exportSchema = false
 )
 

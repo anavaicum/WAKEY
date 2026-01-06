@@ -39,4 +39,24 @@ public interface WakeHistoryDao {
                     "LIMIT 1"
     )
     WakeHistoryEntity getLastEntry();
+
+    @Query(
+            "SELECT COUNT(DISTINCT date(wakeTime / 1000, 'unixepoch')) " +
+                    "FROM wake_history " +
+                    "WHERE success = 1 " +
+                    "AND emergencyUsed = 0 " +
+                    "AND wakeTime >= :startDate"
+    )
+    int countNoSnoozeDays(long startDate);
+
+    @Query(
+            "SELECT COUNT(DISTINCT date(wakeTime / 1000, 'unixepoch')) " +
+                    "FROM wake_history " +
+                    "WHERE success = 1 " +
+                    "AND emergencyUsed = 0 " +
+                    "AND wakeTime < :sixAmTodayMillis " +
+                    "AND wakeTime >= :startDate"
+    )
+    int countEarlyRiserDays(long startDate, long sixAmTodayMillis);
+
 }

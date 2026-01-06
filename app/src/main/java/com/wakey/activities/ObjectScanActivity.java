@@ -272,18 +272,22 @@ public class ObjectScanActivity extends AppCompatActivity {
         new Thread(() -> {
             WakeyDatabase db = WakeyDatabase.getInstance(this);
 
+            long now = System.currentTimeMillis();
+
             WakeHistoryEntity e = new WakeHistoryEntity();
-            e.date = System.currentTimeMillis();
-            e.wakeTime = System.currentTimeMillis();
+            e.date = now;
+            e.wakeTime = now;
             e.success = true;
             e.emergencyUsed = false;
 
             db.wakeHistoryDao().insert(e);
 
+            // streak crește doar la succes
             db.lifeDao().incrementStreak();
 
-            Log.d("WAKE_HISTORY", "Wake saved successfully");
+            Log.d("WAKE_HISTORY", "Successful wake saved");
         }).start();
     }
+
 
 }
