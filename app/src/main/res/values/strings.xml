@@ -1,6 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <!-- App -->
     <string name="app_name">Wakey</string>
+
+    <!-- Object scan -->
     <string name="object_name">Object name</string>
     <string name="object_image">Object image</string>
+
+    <!-- Profile -->
+    <string name="greeting">Hi, %1$s 👋</string>
+    <string name="greeting_default">Hi 👋</string>
+    <string name="enter_name_warning">Please enter your name</string>
+    <string name="profile_saved">Profile saved</string>
+    <string name="hint_name">Your name</string>
+    <string name="save">Save</string>
+
+    <!-- Challenges -->
+    <string name="challenge_no_snooze_title">7-Day No Snooze</string>
+    <string name="challenge_no_snooze_desc">
+        Wake up 7 days in a row without using snooze.
+    </string>
+
+    <string name="challenge_early_title">Early Riser</string>
+    <string name="challenge_early_desc">
+        Wake up before 6:00 AM on 5 days this week.
+    </string>
+
+    <!-- Challenge placeholders -->
+    <string name="challenge_placeholder">Challenge Title</string>
+    <string name="challenge_desc_placeholder">Challenge description</string>
+
+    <!-- Badges -->
+    <string name="badge_perfect_week">Perfect Week</string>
+    <string name="badge_no_snooze">No Snooze</string>
+    <string name="badge_morning_person">Morning Person</string>
+    <string name="badge_punctual">Punctual</string>
+    <string name="badge_placeholder">Badge</string>
+
+    <!-- Profile sections -->
+    <string name="active_challenges">Active Challenges</string>
+    <string name="your_badges">Your Badges</string>
 
 </resources>

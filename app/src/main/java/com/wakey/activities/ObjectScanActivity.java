@@ -22,12 +22,18 @@ import android.widget.Toast;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.wakey.R;
 import com.wakey.alarm.AlarmRingHolder;
+import com.wakey.database.LifeEntity;
+import com.wakey.database.WakeHistoryEntity;
+import com.wakey.database.WakeyDatabase;
 import com.wakey.utils.YuvToRgbConverter;
 import com.wakey.utils.YoloV8Detector;
 
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+
+import java.util.Calendar;
+
 
 public class ObjectScanActivity extends AppCompatActivity {
 
@@ -220,6 +226,8 @@ public class ObjectScanActivity extends AppCompatActivity {
                         Log.d("YOLO_ALARM", "Alarma oprită cu succes.");
                     }
 
+                    saveSuccessfulWake();
+
                     runOnUiThread(() -> showDetectionDialog());
                 }
             }
@@ -263,4 +271,53 @@ public class ObjectScanActivity extends AppCompatActivity {
             finish();
         }
     }
+
+    private void saveSuccessfulWake() {
+        new Thread(() -> {
+            WakeyDatabase db = WakeyDatabase.getInstance(this);
+            long now = System.currentTimeMillis();
+
+            // ---- calc start / end of today ----
+            Calendar cal = Calendar.getInstance();
+            cal.setTimeInMillis(now);
+            cal.set(Calendar.HOUR_OF_DAY, 0);
+            cal.set(Calendar.MINUTE, 0);
+            cal.set(Calendar.SECOND, 0);
+            cal.set(Calendar.MILLISECOND, 0);
+
+            long dayStart = cal.getTimeInMillis();
+            long dayEnd = dayStart + 24L * 60 * 60 * 1000;
+
+            // ---- save history ----
+            WakeHistoryEntity e = new WakeHistoryEntity();
+            e.date = now;
+            e.wakeTime = now;
+            e.success = true;
+            e.emergencyUsed = false;
+            db.wakeHistoryDao().insert(e);
+
+            // ---- check if already counted today ----
+            int successToday =
+                    db.wakeHistoryDao().hasWakeToday(dayStart, dayEnd);
+
+            if (successToday == 1) {
+                LifeEntity life = db.lifeDao().getLife();
+
+                life.correctDaysInRow += 1;
+
+                // 🎁 gain life every 2 days
+                if (life.correctDaysInRow >= 2) {
+                    db.lifeDao().gainLife();
+                    life.correctDaysInRow = 0;
+                }
+
+                db.lifeDao().insert(life);
+            }
+        }).start();
+    }
+
+
+
+
+
 }

@@ -55,12 +55,21 @@ public class AlarmListActivity extends AppCompatActivity {
     private Button btnEmptyAdd;
 
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alarm_list);
 
         MaterialToolbar toolbar = findViewById(R.id.toolbarAlarms);
+
+        toolbar.setNavigationOnClickListener(v -> {
+            Intent intent = new Intent(AlarmListActivity.this, MainActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            startActivity(intent);
+        });
+
         final int initialTopPadding = toolbar.getPaddingTop();
         toolbar.setOnApplyWindowInsetsListener((v, insets) -> {
             int topInset = 0;
@@ -87,7 +96,7 @@ public class AlarmListActivity extends AppCompatActivity {
         });
 
 
-        RecyclerView recycler = findViewById(R.id.recyclerAlarms);
+
         recycler.setLayoutManager(new LinearLayoutManager(this));
 
         adapter = new AlarmListAdapter(loadAlarms(), this, alarm -> {

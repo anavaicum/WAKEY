@@ -13,6 +13,7 @@
         android:fitsSystemWindows="true"
         app:elevation="0dp">
 
+
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbarAlarms"
             android:layout_width="match_parent"
@@ -22,9 +23,12 @@
             android:paddingEnd="20dp"
             android:background="@android:color/transparent"
             android:fitsSystemWindows="true"
-            app:contentInsetStartWithNavigation="0dp">
+            app:navigationIcon="@drawable/ic_home"
+            app:navigationIconTint="@android:color/white">
 
-            <TextView
+
+
+        <TextView
                 android:id="@+id/titleAlarms"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -60,6 +64,9 @@
         android:paddingEnd="16dp"
         android:paddingBottom="120dp"
         android:clipToPadding="false"/>
+
+
+
 
     <!-- EMPTY STATE -->
     <LinearLayout
