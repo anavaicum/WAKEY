@@ -4,6 +4,7 @@ import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -59,6 +60,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        ImageView btnLivesInfo = findViewById(R.id.btnLivesInfo);
+
+        btnLivesInfo.setOnClickListener(v -> showLivesInfoDialog());
+
+
         // ===== FIND VIEWS =====
         textStreakValue = findViewById(R.id.textStreakValue);
         textStreakDelta = findViewById(R.id.textStreakDelta);
@@ -84,10 +90,20 @@ public class MainActivity extends AppCompatActivity {
             int id = item.getItemId();
 
             if (id == R.id.nav_dashboard) {
-                // Suntem DEJA în MainActivity (Dashboard)
-                // NU facem nimic
+                Fragment fragment =
+                        getSupportFragmentManager()
+                                .findFragmentById(R.id.fragmentContainer);
+
+                if (fragment != null) {
+                    getSupportFragmentManager()
+                            .beginTransaction()
+                            .remove(fragment)
+                            .commit();
+                }
+
                 return true;
             }
+
 
             if (id == R.id.nav_alarms) {
                 startActivity(new Intent(this, AlarmListActivity.class));
@@ -111,6 +127,8 @@ public class MainActivity extends AppCompatActivity {
         loadLifeFromDb();
         loadAvgWakeTime();
         loadWeeklyChart();
+        loadWakeTarget();
+
 
     }
 
@@ -233,7 +251,7 @@ public class MainActivity extends AppCompatActivity {
             List<WakeHistoryEntity> entries =
                     WakeyDatabase.getInstance(this)
                             .wakeHistoryDao()
-                            .getLast7SuccessfulDays();
+                            .getLast7WakeUps();
 
             String avgWake = calculateAvgWakeTime(entries);
 
@@ -241,8 +259,8 @@ public class MainActivity extends AppCompatActivity {
                     textAvgWakeValue.setText(avgWake)
             );
         }).start();
-
     }
+
 
     private Map<Integer, Integer> buildWeeklyWakeMap(List<WakeHistoryEntity> entries) {
         Map<Integer, Integer> map = new HashMap<>();
@@ -267,16 +285,23 @@ public class MainActivity extends AppCompatActivity {
 
     private void loadWeeklyChart() {
         new Thread(() -> {
+            WakeyDatabase db = WakeyDatabase.getInstance(this);
+
             List<WakeHistoryEntity> entries =
-                    WakeyDatabase.getInstance(this)
-                            .wakeHistoryDao()
-                            .getLast7SuccessfulDays();
+                    db.wakeHistoryDao().getLast7WakeUps();
 
             Map<Integer, Integer> data = buildWeeklyWakeMap(entries);
 
-            runOnUiThread(() -> weeklyChart.setData(data));
+            WakeTargetEntity target = db.wakeTargetDao().getTarget();
+            int targetMinutes = target != null ? target.targetMinutes : -1;
+
+            runOnUiThread(() -> {
+                weeklyChart.setData(data);
+                weeklyChart.setTargetMinutes(targetMinutes);
+            });
         }).start();
     }
+
 
 
     private void openTimePicker() {
@@ -327,6 +352,47 @@ public class MainActivity extends AppCompatActivity {
         cal.set(Calendar.SECOND, 0);
         cal.set(Calendar.MILLISECOND, 0);
         return cal.getTimeInMillis();
+    }
+
+
+    private void showLivesInfoDialog() {
+        new androidx.appcompat.app.AlertDialog.Builder(this)
+                .setTitle("Lives system")
+                .setMessage(
+                        "• You start with 3 lives.\n\n" +
+                                "• Each successful wake-up without using emergency counts as a correct day.\n\n" +
+                                "• After 2 correct days in a row, you gain +1 life (up to a maximum of 3).\n\n" +
+                                "• Using emergency or failing to wake up resets your streak and costs 1 life."
+                )
+                .setPositiveButton("Got it", (dialog, which) -> dialog.dismiss())
+                .show();
+    }
+
+
+    private void loadWakeTarget() {
+        new Thread(() -> {
+            WakeTargetEntity target =
+                    WakeyDatabase.getInstance(this)
+                            .wakeTargetDao()
+                            .getTarget();
+
+            if (target != null) {
+                int minutes = target.targetMinutes;
+                int hour = minutes / 60;
+                int minute = minutes % 60;
+
+                runOnUiThread(() ->
+                        textWakeTarget.setText(
+                                String.format(
+                                        Locale.getDefault(),
+                                        "Target: %02d:%02d",
+                                        hour,
+                                        minute
+                                )
+                        )
+                );
+            }
+        }).start();
     }
 
 

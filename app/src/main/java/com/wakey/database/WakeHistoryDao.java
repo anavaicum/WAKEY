@@ -68,6 +68,16 @@ public interface WakeHistoryDao {
     int hasWakeToday(long dayStart, long dayEnd);
 
 
+    @Query(
+            "SELECT * FROM wake_history " +
+                    "WHERE success = 1 " +
+                    "ORDER BY wakeTime DESC " +
+                    "LIMIT 7"
+    )
+    List<WakeHistoryEntity> getLast7WakeUps();
+
+
+
 
 
 

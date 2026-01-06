@@ -13,4 +13,8 @@ public interface WakeTargetDao {
 
     @Query("SELECT * FROM wake_target WHERE id = 1")
     WakeTargetEntity get();
+
+    @Query("SELECT * FROM wake_target LIMIT 1")
+    WakeTargetEntity getTarget();
+
 }
