@@ -101,16 +101,6 @@ public class MainActivity extends AppCompatActivity {
                         .commit();
                 return true;
             }
-            if (id == R.id.nav_dashboard) {
-                // Eliminăm orice fragment (ex: ProfileFragment)
-                getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.fragmentContainer, new Fragment())
-                        .commit();
-
-                return true;
-            }
-
             return false;
         });
 
@@ -150,6 +140,7 @@ public class MainActivity extends AppCompatActivity {
         }).start();
     }
 
+
     // =========================
     // UI UPDATE
     // =========================
@@ -168,10 +159,14 @@ public class MainActivity extends AppCompatActivity {
         textStreakValue.setText(life.correctDaysInRow + " days");
         textStreakDelta.setText("+0%");
 
+
+
         // 📊 PROGRESS
+
         int progress = Math.min((life.correctDaysInRow * 100) / 2, 100);
         progressBar.setProgress(progress);
         textProgress.setText(life.correctDaysInRow + "/2 days");
+
 
         // ⏰ AVG WAKE (placeholder real, nu minciună)
         textAvgWakeValue.setText("--:--");
@@ -322,6 +317,16 @@ public class MainActivity extends AppCompatActivity {
                     )
             );
         }).start();
+    }
+
+
+    private long getStartOfToday() {
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.HOUR_OF_DAY, 0);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
+        return cal.getTimeInMillis();
     }
 
 

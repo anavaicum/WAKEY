@@ -134,11 +134,11 @@ public class ProfileFragment extends Fragment {
         new Thread(() -> {
             WakeyDatabase db = WakeyDatabase.getInstance(requireContext());
 
-            long start7days = daysAgo(6);
             long sixAm = getTodaySixAmMillis();
 
-            int noSnoozeDays = db.wakeHistoryDao().countNoSnoozeDays(start7days);
-            int earlyDays = db.wakeHistoryDao().countEarlyRiserDays(start7days, sixAm);
+            int noSnoozeDays = db.wakeHistoryDao().countNoSnoozeStreak();
+            int earlyDays = db.wakeHistoryDao().countEarlyRiserStreak(sixAm);
+
 
             requireActivity().runOnUiThread(() -> {
                 setupChallenge(
