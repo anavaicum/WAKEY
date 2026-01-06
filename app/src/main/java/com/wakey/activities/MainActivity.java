@@ -92,9 +92,13 @@ public class MainActivity extends AppCompatActivity {
             }
 
             if (id == R.id.nav_profile) {
-                Toast.makeText(this, "Profile coming soon 👤", Toast.LENGTH_SHORT).show();
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragmentContainer, new ProfileFragment())
+                        .commit();
                 return true;
             }
+
             return false;
         });
 

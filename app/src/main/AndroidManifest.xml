@@ -41,12 +41,16 @@
         <activity
             android:name=".activities.MainActivity"
             android:exported="false"
-            android:theme="@style/Theme.Wakey" />
+            android:theme="@style/Theme.Wakey"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
+
 
         <activity
             android:name=".activities.AlarmActivity"
             android:exported="false"
             android:theme="@style/Theme.Wakey" />
+
+
 
         <!--  ACTIVITATEA LIPSA  -->
         <activity

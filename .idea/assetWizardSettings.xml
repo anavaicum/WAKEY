@@ -301,7 +301,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="jar:file:/Applications/Android%20Studio.app/Contents/plugins/android/lib/android.jar!/images/material/icons/materialicons/dashboard/baseline_dashboard_24.xml" />
+                                      <entry key="url" value="file:$USER_HOME$/Library/Android/sdk/icons/material/materialsymbolsoutlined/event_available/outline_event_available_24.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -311,7 +311,8 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="outputName" value="baseline_dashboard_24" />
+                            <entry key="color" value="ffffff" />
+                            <entry key="outputName" value="ic_challenge" />
                             <entry key="sourceFile" value="$PROJECT_DIR$/../objects.svg" />
                           </map>
                         </option>
